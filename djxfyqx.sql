@@ -18,9 +18,9 @@ DROP TABLE IF EXISTS `qx_service`;
 CREATE TABLE `qx_service` (
   `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
   `project` VARCHAR(255) COMMENT '维修项目',
-  `hourly-wage` VARCHAR(255) COMMENT '工时费',
+  `hourly_wage` VARCHAR(255) COMMENT '工时费',
   `section` VARCHAR(255) COMMENT '工段',
-  `repair-man` VARCHAR(255) COMMENT '主修人',
+  `repair_man` VARCHAR(255) COMMENT '主修人',
   `nature` VARCHAR(255) COMMENT '性质',
   `create_time` VARCHAR(20) COMMENT '创建时间',
   `write_time` VARCHAR(20) COMMENT '修改时间'

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>维修内容</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        label {
+            font-size: 25px;
+        }
+
+    </style>
+</head>
+<body>
+<table class="table table-bordered">
+    <caption class="text-center">
+        <h2>维修内容</h2>
+        <a class="btn btn-success btn-outline"  href="{:U('Service/add')}">添加</a>
+    </caption>
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>维修项目</th>
+        <th>工时费</th>
+        <th>工段</th>
+        <th>主修人</th>
+        <th>性质</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <foreach name="result" item="item">
+        <tr>
+            <td></td>
+            <td>{$item.project}</td>
+            <td>{$item.hourly_wage}</td>
+            <td>{$item.section}</td>
+            <td>{$item.repair_man}</td>
+            <td>{$item.nature}</td>
+            <td>
+                <a class="btn btn-warning btn-outline"  href="{:U('Service/modify?id='.$item['id'])}">修改</a>
+                <a class="btn btn-danger btn-outline"  href="{:U('Service/delete?id='.$item['id'])}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+            </td>
+        </tr>
+    </foreach>
+    </tbody>
+</table>
+
+
+</body>
+</html>

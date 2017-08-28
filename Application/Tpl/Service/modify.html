@@ -2,23 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>维修内容</title>
+    <title>修改维修内容</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        label {
-            font-size: 25px;
-        }
-    </style>
 </head>
 <body>
 <div class="page-header">
-    <h1>添加材料</h1>
+    <h1>修改维修内容</h1>
 </div>
 <form role="form" class="form-horizontal" method="post">
+    <input type="text" name="id" hidden="true" value="{$item.id}">
     <div class="form-group">
         <label class="col-sm-2 control-label">维修项目:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" name="project">
+            <input type="text" class="form-control" name="project" value="{$item.project}">
         </div>
     </div>
     <br/>
@@ -26,40 +22,43 @@
         <label class="col-sm-2 control-label">工时费:</label>
         <!-- <label class="col-sm-2">配件名称</label> -->
         <div class="col-sm-9">
-            <input type="text" class="form-control" name="hourly_wage">
+            <input type="text" class="form-control" name="hourly_wage" value="{$item.hourly_wage}">
         </div>
     </div>
     <br/>
     <div class="form-group">
         <label class="col-sm-2 control-label">工段:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" name="section">
+            <input type="text" class="form-control" name="section" value="{$item.section}">
         </div>
     </div>
     <br/>
     <div class="form-group">
         <label class="col-sm-2 control-label">主修人:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" name="repair_man">
+            <input type="text" class="form-control" name="repair_man" value="{$item.repair_man}">
         </div>
     </div>
     <br/>
     <div class="form-group">
         <label class="col-sm-2 control-label">性质:</label>
+        <!-- <span class="label label-pill label-default">Default</span> -->
         <div class="col-sm-9">
-            <input type="text" class="form-control" name="nature" />
+            <input type="text" class="form-control" name="nature" value="{$item.nature}"/>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-sm-4"></div>
         <div class="col-sm-2">
-            <input type="submit" class="btn btn-primary" name="" value="添加"/>
+            <!-- <button type="submit" class="btn btn-primary"> 添加</button> -->
+            <input type="submit" class="btn btn-primary" name="" value="修改"/>
         </div>
         <div class="col-sm-2">
             <input type="button" class="btn btn-primary" name="" value="返回"/>
         </div>
     </div>
 </form>
+
 </body>
 </html>
