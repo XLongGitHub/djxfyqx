@@ -1,18 +1,21 @@
-create database `djxfyqxj`;
-use `djxfyqxj`;
+DROP DATABASE IF EXISTS `djxfyqx`;
+create database `djxfyqx`;
+use `djxfyqx`;
 
-CREATE TABLE `material` (
+DROP TABLE IF EXISTS `qx_material`;
+CREATE TABLE `qx_material` (
   `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
   `number` VARCHAR(255) COMMENT '配件件号',
   `name` VARCHAR(255) COMMENT '配件名称',
   `unit` VARCHAR(255) COMMENT '单位',
   `unit_price` VARCHAR(255) COMMENT '单价',
   `nature` VARCHAR(255) COMMENT '性质',
-  'create_time' VARCHAR(20) COMMENT '创建时间',
+  `create_time` VARCHAR(20) COMMENT '创建时间',
   `write_time` VARCHAR(20) COMMENT '修改时间'
 );
 
-CREATE TABLE `service` (
+DROP TABLE IF EXISTS `qx_service`;
+CREATE TABLE `qx_service` (
   `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
   `project` VARCHAR(255) COMMENT '维修项目',
   `hourly-wage` VARCHAR(255) COMMENT '工时费',
@@ -23,7 +26,8 @@ CREATE TABLE `service` (
   `write_time` VARCHAR(20) COMMENT '修改时间'
 );
 
-CREATE TABLE `settlement` (
+DROP TABLE IF EXISTS `qx_settlement`;
+CREATE TABLE `qx_settlement` (
     `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
     `repair_unit` VARCHAR(255) COMMENT '送修单位',
     `job_number` VARCHAR(255) COMMENT '工号',
@@ -48,6 +52,3 @@ CREATE TABLE `settlement` (
     `create_time` VARCHAR(20),
     `write_time` VARCHAR(20)
 );
-
-
-

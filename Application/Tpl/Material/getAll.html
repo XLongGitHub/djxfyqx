@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>材料列表</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        label {
+            font-size: 25px;
+        }
+
+    </style>
+</head>
+<body>
+<table class="table table-bordered">
+    <caption class="text-center">
+        <h2>材料列表</h2>
+        <a class="btn btn-success btn-outline"  href="{:U('Material/add')}">添加</a>
+    </caption>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>配件件号</th>
+            <th>配件名称</th>
+            <th>单位</th>
+            <th>单价</th>
+            <th>性质</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <foreach name="result" item="item">
+            <tr>
+                <td></td>
+                <td>{$item.number}</td>
+                <td>{$item.name}</td>
+                <td>{$item.unit}</td>
+                <td>{$item.unit_price}</td>
+                <td>{$item.nature}</td>
+                <td>
+                    <a class="btn btn-warning btn-outline"  href="{:U('Material/modify?id='.$item['id'])}">修改</a>
+                    <a class="btn btn-danger btn-outline"  href="{:U('Material/delete?id='.$item['id'])}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </tbody>
+</table>
+</body>
+</html>
