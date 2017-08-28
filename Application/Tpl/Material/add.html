@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加材料</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    label {
+        font-size: 25px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="page-header">
+        <h1>添加材料</h1>
+    </div>
+    <form role="form" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">配件件号:</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="number">
+            </div>
+        </div>
+        <br/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">配件名称:</label>
+            <!-- <label class="col-sm-2">配件名称</label> -->
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="name">
+            </div>
+        </div>
+        <br/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">单位:</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="unit">
+            </div>
+        </div>
+        <br/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">单价:</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="unit_price">
+            </div>
+        </div>
+        <br/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">性质:</label>
+            <!-- <span class="label label-pill label-default">Default</span> -->
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="nature" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-2">
+                <!-- <button type="submit" class="btn btn-primary"> 添加</button> -->
+                <input type="submit" class="btn btn-primary" name="" value="添加"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="button" class="btn btn-primary" name="" value="返回"/>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
