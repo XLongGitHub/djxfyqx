@@ -91,9 +91,9 @@
             <td colspan="2">{$material.number}</td>
             <td colspan="3">{$material.name}</td>
             <td>{$material.unit}</td>
-            <td>{$material.unit_price}</td>
-            <td><input type="text" value="{$material.quantity}" name="quantity"></td>
-            <td colspan="2"><input type="text" value="{$material.money}" name="money"></td>
+            <td name="{$material}-unit_price">{$material.unit_price}</td>
+            <td><input type="text" value="{$material.quantity}" name="{$material.material_id}-quantity"></td>
+            <td colspan="2"><input type="text" value="{$material.money}" name="{$material.material_id}-money"></td>
             <td>{$material.nature}</td>
         </tr>
     </foreach>
@@ -187,4 +187,22 @@
     </tr>
 </table>
 </body>
+<script>
+    window.onload = function() {
+        var quantities = document.querySelectorAll("input[name$='quantity']");
+        var moneyAll = document.querySelectorAll("input[name$='money']");
+        var unit_prices = document.querySelectorAll("td[name$='unit_price']");
+        // alert(quantities.length);
+        for (let i = 0; i < quantities.length; i++) {
+            // alert("fafa");
+            quantities[i].addEventListener('keyup', () => {
+                let money = 0;
+                let quantity = quantities[i].value;
+                let unit_price = unit_prices[i].innerText;
+                money = quantity * unit_price;
+                moneyAll[i].value = money;
+            } );
+        }
+    }
+</script>
 </html>
