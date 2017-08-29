@@ -45,10 +45,25 @@ CREATE TABLE `qx_settlement` (
     `address` VARCHAR(255) COMMENT '地址',
     `my_contact_method` VARCHAR(255) COMMENT '我的联系方式',
     `fax` VARCHAR(255) COMMENT '传真',
-    `man` VARCHAR(255) COMMENT '结算人',
-    `date` VARCHAR(255) COMMENT '结算日期',
+    `settle_man` VARCHAR(255) COMMENT '结算人',
+    `settle_date` VARCHAR(255) COMMENT '结算日期',
     `open_bank` VARCHAR(255) COMMENT '开户行',
     `account` VARCHAR(255) COMMENT '账号',
     `create_time` VARCHAR(20),
     `write_time` VARCHAR(20)
 );
+
+DROP TABLE IF EXISTS `qx_settle_material`;
+CREATE TABLE `qx_settle_material`(
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `settle_id` INT(11) COMMENT '结算单id',
+  `material_id` INT(11) COMMENT '材料id',
+  `quantity` INT(11) COMMENT '数量',
+  `money` VARCHAR(255) COMMENT '金额',
+  `create_time` VARCHAR(20),
+  `write_time` VARCHAR(20)
+);
+
+INSERT INTO `qx_material` VALUES ('1', '11', '发动机', '台', '300', '正常', '0', null);
+INSERT INTO `qx_material` VALUES ('4', '12', '油漆', '瓶', '500', '正常', '0', null);
+INSERT INTO `qx_material` VALUES ('6', '14', '特级油漆', '瓶', '600', '正常', '0', null);

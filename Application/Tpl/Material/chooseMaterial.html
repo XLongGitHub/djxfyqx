@@ -28,7 +28,7 @@
     <input type="submit">
 </form> -->
 
-    <form role="form" class="form-horizontal" method="post" id="myForm">
+    <form role="form" class="form-horizontal" method="post" id="myForm" action="{:U('Settlement/addMaterial')}">
 
         <table class="table table-bordered">
             <caption class="text-center">
@@ -57,17 +57,25 @@
                         <td>{$item.unit_price}</td>
                         <td>{$item.nature}</td>
                         <td class="status">
-                            未选中
+                            <if condition="$item['choose'] eq '0'">未选中
+                            <else />已选中
+                            </if>
                         </td>
                         <td>
                             <!-- <a class="btn btn-warning btn-outline" href="{:U('Material/modify?id='.$item['id'])}">修改</a> -->
                             <!-- <a class="btn btn-danger btn-outline" href="{:U('Material/delete?id='.$item['id'])}" onclick="if(confirm('确定删除?')==false)return false;">删除</a> -->
-                            <button type="button" class="btn btn-primary" name="choose">选中</button>
+                            <if condition="$item['choose'] eq '0'">
+                                <button type="button" class="btn btn-primary" name="choose">选中</button>
+                            <else />
+                                <button type="button" class="btn btn-warning" name="choose">取消</button>
+                            </if>
                         </td>
                     </tr>
                 </foreach>
             </tbody>
-            <input type="text" name="new_id" id="new_id" >
+            <!--合成得到的材料id和结算单id-->
+            <input type="text" name="new_id" id="new_id">
+            <input type="text" name="settle_id" value="{$settle_id}">
         </table>
 
         <div class="form-group">
@@ -104,7 +112,7 @@
 
             for (let m = 0; m < buttons.length; m++) {
                 if (statuses[m].innerText == "已选中") {
-                    new_id += ids[m].innerText + "  ";
+                    new_id += ids[m].innerText + " ";
                 } else {
                 }
             }
@@ -114,21 +122,21 @@
             document.getElementById("myForm").submit();
         }
 
-        function createIds() {
-            var new_id = "";
-
-            for (let m = 0; m < buttons.length; m++) {
-                if (statuses[m].innerText == "已选中") {
-                    new_id += ids[m].innerText + "  ";
-//                    alert(ids[m].innerText);
-//                    alert(new_id);
-                } else {
-//                    alert("2");
-                }
-            }
-            var new_id_node = document.getElementById("new_id");
-            new_id_node.value = new_id;
-        }
+//        function createIds() {
+//            var new_id = "";
+//
+//            for (let m = 0; m < buttons.length; m++) {
+//                if (statuses[m].innerText == "已选中") {
+//                    new_id += ids[m].innerText + ",";
+////                    alert(ids[m].innerText);
+////                    alert(new_id);
+//                } else {
+////                    alert("2");
+//                }
+//            }
+//            var new_id_node = document.getElementById("new_id");
+//            new_id_node.value = new_id;
+//        }
 
 //        var form = document.getElementById("myForm");
 //        form.addEventListener("submit")
