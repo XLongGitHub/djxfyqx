@@ -324,6 +324,29 @@ class SettlementAction extends Action {
         }
     }
 
+    /**
+     * 显示数据
+     */
+    public function show() {
+        $Settlement = M("Settlement");
+        $settle_id = I("get.settle_id", "", "strval");
+        $result = $Settlement->where("id = $settle_id")->select();
+        if (!empty($result)) {
+            $data = $result[0];
+        } else {
+            $data = null;
+        }
+        $Settle_material = M("Settle_material");
+        $materials = $Settle_material->alias("i")
+            ->join('LEFT JOIN qx_material m on m.id = i.material_id')
+            ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
+            ->where("i.settle_id = $settle_id")
+            ->select();
+        $this->assign("settle_id", $settle_id);
+        $this->assign("materials", $materials);
+        $this->assign("data", $data);
+        $this->display();
+    }
     public function addService() {
 
     }

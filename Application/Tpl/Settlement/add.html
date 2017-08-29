@@ -16,7 +16,7 @@
 <body>
 <form  action="{:U('Settlement/modify')}" method="POST" id="myForm">
 <input type="text" name="settle_id" value="{$settle_id}">
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
     <caption class="text-center"><h1>垫江县福源汽修</h1></caption>
     <tr>
         <td colspan="12" class="text-center"><h4>结算单</h4></td>
@@ -188,6 +188,13 @@
                 <input type="button" class="btn btn-success btn-lg" name="" value="保存结算单" onclick="formSubmit()"/>
         </td>
     </tr>
+    <tr>
+            <td colspan="12" class="text-center">
+                    <!-- <input type="button" class="btn btn-success btn-lg" name="" value="" onclick="formSubmit()"/> -->
+                    <!--<a herf="{:U('Settlement/show?settle_id'.$settle_id)}" class="btn btn-info">预览结算单</a>-->
+                     <a href="{:U('Settlement/show?settle_id='.$settle_id)}" class="btn btn-primary" target="_blank">预览结算单</a>
+            </td>
+        </tr>
     <tr>
         <td colspan="12" class="text-center"><h3>谢谢惠顾</h3></td>
     </tr>
