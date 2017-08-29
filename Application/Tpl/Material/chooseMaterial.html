@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>选择维修材料</title>
-    <!--<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!--<link href="Public/css/bootstrap.min.css" rel="stylesheet">-->
     <!--<link href="Public/css/bootstrap-switch.css" rel="stylesheet">-->
     <!--<script src="Public/js/jquery-3.1.1.min.js"></script>-->
     <!--<script src="Public/js/bootstrap-switch.js"></script>-->
 
-    <link href="Public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="Public/css/bootstrap-switch.css" rel="stylesheet">
-    <script src="Public/js/jquery-3.1.1.min.js"></script>
-    <script src="Public/js/bootstrap-switch.js"></script>
+    <!-- <link href="Public/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link href="Public/css/bootstrap-switch.css" rel="stylesheet"> -->
+    <!-- <script src="Public/js/jquery-3.1.1.min.js"></script> -->
+    <!-- <script src="Public/js/bootstrap-switch.js"></script> -->
 
 </head>
 
@@ -84,7 +84,8 @@
                 <input type="button" class="btn btn-primary" name="" value="提交" onclick="formSubmit()"/>
             </div>
             <div class="col-sm-2">
-                <input type="button" class="btn btn-primary" name="" value="返回" />
+                <!--<input type="button" class="btn btn-primary" name="" value="返回" />-->
+                <a href="{:U('Settlement/modify?settle_id='.$settle_id)}" class="btn btn-primary">返回</a>
             </div>
         </div>
     </form>

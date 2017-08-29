@@ -86,7 +86,6 @@ class MaterialAction extends Action {
     public function chooseMaterial() {
         if (IS_GET) {
             $settle_id = I("get.settle_id", "", "strval");
-
             $Material = M("Material");
             $result = $Material->order("id desc")->select();
 
