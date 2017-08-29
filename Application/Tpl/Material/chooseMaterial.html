@@ -1,17 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>选择维修材料</title>
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<form role="form" class="form-horizontal" method="post">
-    <div class="checkbox">
-        <label><input type="checkbox" value="">si</label>
-    </div>
+    <!--<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="Public/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="Public/css/bootstrap-switch.css" rel="stylesheet">-->
+    <!--<script src="Public/js/jquery-3.1.1.min.js"></script>-->
+    <!--<script src="Public/js/bootstrap-switch.js"></script>-->
 
-</form>
+    <link href="Public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Public/css/bootstrap-switch.css" rel="stylesheet">
+    <script src="Public/js/jquery-3.1.1.min.js"></script>
+    <script src="Public/js/bootstrap-switch.js"></script>
+
+</head>
+
+<body>
+    <!-- 
+<form role="form" class="form-horizontal" method="post">
+    <foreach name="result" item="item">
+        <div class="switch">
+            <label><input type="checkbox" value="" name="test">{$item.name}</label>
+        </div>
+    </foreach>
+    <input type="submit">
+</form> -->
+
+    <form role="form" class="form-horizontal" method="post" id="myForm">
+
+        <table class="table table-bordered">
+            <caption class="text-center">
+                <h2>材料列表</h2>
+                <!-- <a class="btn btn-success btn-outline" href="{:U('Material/add')}">添加</a> -->
+            </caption>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>配件件号</th>
+                    <th>配件名称</th>
+                    <th>单位</th>
+                    <th>单价</th>
+                    <th>性质</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <foreach name="result" item="item">
+                    <tr>
+                        <td class="item_id">{$item.id}</td>
+                        <td>{$item.number}</td>
+                        <td>{$item.name}</td>
+                        <td>{$item.unit}</td>
+                        <td>{$item.unit_price}</td>
+                        <td>{$item.nature}</td>
+                        <td class="status">
+                            未选中
+                        </td>
+                        <td>
+                            <!-- <a class="btn btn-warning btn-outline" href="{:U('Material/modify?id='.$item['id'])}">修改</a> -->
+                            <!-- <a class="btn btn-danger btn-outline" href="{:U('Material/delete?id='.$item['id'])}" onclick="if(confirm('确定删除?')==false)return false;">删除</a> -->
+                            <button type="button" class="btn btn-primary" name="choose">选中</button>
+                        </td>
+                    </tr>
+                </foreach>
+            </tbody>
+            <input type="text" name="new_id" id="new_id" >
+        </table>
+
+        <div class="form-group">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-2">
+                <input type="button" class="btn btn-primary" name="" value="提交" onclick="formSubmit()"/>
+            </div>
+            <div class="col-sm-2">
+                <input type="button" class="btn btn-primary" name="" value="返回" />
+            </div>
+        </div>
+    </form>
+
+    <script>
+        buttons = document.querySelectorAll("button[name=choose]");
+        statuses = document.querySelectorAll("td[class=status]");
+        ids = document.querySelectorAll("td[class=item_id]");
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function (event) {
+                if (buttons[i].innerText == "选中") {
+                    buttons[i].innerText = "取消";
+                    buttons[i].setAttribute("class", "btn btn-warning");
+                    statuses[i].innerText = "已选中";
+                } else {
+                    buttons[i].innerText = "选中";
+                    buttons[i].setAttribute("class", "btn btn-primary");
+                    statuses[i].innerText = "未选中";
+                }
+            })
+        }
+
+        function formSubmit() {
+            var new_id = "";
+
+            for (let m = 0; m < buttons.length; m++) {
+                if (statuses[m].innerText == "已选中") {
+                    new_id += ids[m].innerText + "  ";
+                } else {
+                }
+            }
+            var new_id_node = document.getElementById("new_id");
+            new_id_node.value = new_id;
+//            alert(new_id);
+            document.getElementById("myForm").submit();
+        }
+
+        function createIds() {
+            var new_id = "";
+
+            for (let m = 0; m < buttons.length; m++) {
+                if (statuses[m].innerText == "已选中") {
+                    new_id += ids[m].innerText + "  ";
+//                    alert(ids[m].innerText);
+//                    alert(new_id);
+                } else {
+//                    alert("2");
+                }
+            }
+            var new_id_node = document.getElementById("new_id");
+            new_id_node.value = new_id;
+        }
+
+//        var form = document.getElementById("myForm");
+//        form.addEventListener("submit")
+    </script>
 
 </body>
+
 </html>

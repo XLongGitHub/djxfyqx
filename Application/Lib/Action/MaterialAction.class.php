@@ -70,7 +70,7 @@ class MaterialAction extends Action {
 
     public function getAll() {
         $Material = M("Material");
-        $result = $Material->select();
+        $result = $Material->order("id desc")->select();
         $this->assign("result", $result);
         $this->display();
     }
@@ -80,6 +80,20 @@ class MaterialAction extends Action {
         if (!empty($id)) {
             $Material = M("Material");
             $Material->where("id = $id")->delete();
+        }
+    }
+
+    public function chooseMaterial() {
+        if (IS_GET) {
+            $id = I("get.id", "", "strval");
+
+            $Material = M("Material");
+            $result = $Material->order("id desc")->select();
+            $this->assign("result", $result);
+            $this->display();
+        } else {
+            var_dump(I("post.new_id"));
+            exit();
         }
     }
 }
