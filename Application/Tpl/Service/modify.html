@@ -6,6 +6,22 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-default nav-justified" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">垫江县福源汽修</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class=""><a href="{:U('Settlement/add')}">新建结算清单</a></li>
+                <li><a href="{:U('Material/getAll')}">维修材料管理</a></li>
+                <li><a href="{:U('Material/add')}">新建维修材料</a></li>
+                <li><a href="{:U('Service/getAll')}">维修内容管理</a></li>
+                <li><a href="{:U('Service/add')}">新建维修内容</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="page-header">
     <h1>修改维修内容</h1>
 </div>
