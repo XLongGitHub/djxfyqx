@@ -218,6 +218,7 @@ class SettlementAction extends Action {
      */
     public function modify() {
         $Settlement = M("Settlement");
+        $Settle_material = M("Settle_material");
         if (IS_POST) {
             $settle_id = I("post.settle_id", "", "strval");
 
@@ -262,6 +263,29 @@ class SettlementAction extends Action {
             $data['account'] = $account;
             $data['create_time'] = $create_time;
             $data['write_time'] = $write_time;
+//         记录数量金额
+            $two_material_ids =  $Settle_material->where("settle_id = $settle_id")->field("material_id")->select();
+            $materials_ids = array();
+            if ($two_material_ids) {
+                for ($i = 0; $i < count($two_material_ids); $i++) {
+                    $materials_ids[] = $two_material_ids[$i]['material_id'];
+                }
+            }
+            var_dump($materials_ids);
+            for ($i = 0; $i < count($materials_ids); $i++) {
+                $quantity = I("post.".$materials_ids[$i]."_quantity", "", "strval");
+                var_dump("post.".$i."_quantity");
+                var_dump($quantity);
+                $money = I("post.".$materials_ids[$i]."_money", "", "strval");
+                $settle_material_data = array();
+                $settle_material_data['quantity'] = $quantity;
+                $settle_material_data['money'] = $money;
+                $Settle_material->where("settle_id = $settle_id and material_id = $materials_ids[$i]")
+                    ->save($settle_material_data);
+                var_dump($settle_material_data);
+            }
+//            exit();
+
 //            判断添加还是修改记录
             var_dump($settle_id);
             $is_exists = null;
@@ -271,6 +295,7 @@ class SettlementAction extends Action {
             }
             if (empty($settle_id) || empty($is_exists)) {
                 $result_id = $Settlement->data($data)->add();
+
                 var_dump("add");
             } else {
                 $result_id = $Settlement->where("id = $settle_id")->save($data);
@@ -290,7 +315,6 @@ class SettlementAction extends Action {
             } else {
                 $data = null;
             }
-            $Settle_material = M("Settle_material");
             $materials = $Settle_material->alias("i")
                 ->join('LEFT JOIN qx_material m on m.id = i.material_id')
                 ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')

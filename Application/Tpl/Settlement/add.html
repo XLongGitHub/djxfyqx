@@ -108,9 +108,10 @@
             <td colspan="2">{$material.number}</td>
             <td colspan="3">{$material.name}</td>
             <td>{$material.unit}</td>
-            <td name="{$material}-unit_price">{$material.unit_price}</td>
-            <td><input type="text" value="{$material.quantity}" name="{$material.material_id}-quantity"></td>
-            <td colspan="2"><input type="text" value="{$material.money}" name="{$material.material_id}-money"></td>
+            <td name="{$material.material_id}_unit_price_local">{$material.unit_price}</td>
+            <input type="text" name="{$material.material_id}_unit_price" value="{$material.unit_price}" hidden="true"/>
+            <td><input type="text" value="{$material.quantity}" name="{$material.material_id}_quantity"></td>
+            <td colspan="2"><input type="text" value="{$material.money}" name="{$material.material_id}_money"></td>
             <td>{$material.nature}</td>
         </tr>
     </foreach>
@@ -225,7 +226,7 @@
     window.onload = function() {
         var quantities = document.querySelectorAll("input[name$='quantity']");
         var moneyAll = document.querySelectorAll("input[name$='money']");
-        var unit_prices = document.querySelectorAll("td[name$='unit_price']");
+        var unit_prices = document.querySelectorAll("td[name$='unit_price_local']");
         // alert(quantities.length);
         for (let i = 0; i < quantities.length; i++) {
             // alert("fafa");
