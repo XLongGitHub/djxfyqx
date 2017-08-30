@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>结算单</title>
@@ -8,217 +9,240 @@
         label {
             font-size: 25px;
         }
+
         .text-center {
             text-align: center
         }
+
+        table {
+            width: 100%;
+        }
+
+        .input_width_100 {
+            /* width: 100px; */
+            width: 100%;
+        }
     </style>
 </head>
+
 <body>
-<nav class="navbar navbar-default nav-justified" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">垫江县福源汽修</a>
+    <nav class="navbar navbar-default nav-justified" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">垫江县福源汽修</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="{:U('Settlement/add')}">新建结算清单</a></li>
+                    <li><a href="{:U('Material/getAll')}">维修材料管理</a></li>
+                    <li><a href="{:U('Material/add')}">新建维修材料</a></li>
+                    <li><a href="{:U('Service/getAll')}">维修内容管理</a></li>
+                    <li><a href="{:U('Service/add')}">新建维修内容</a></li>
+                </ul>
+            </div>
         </div>
-        <div>
-            <ul class="nav navbar-nav">
-                <li class=""><a href="{:U('Settlement/add')}">新建结算清单</a></li>
-                <li><a href="{:U('Material/getAll')}">维修材料管理</a></li>
-                <li><a href="{:U('Material/add')}">新建维修材料</a></li>
-                <li><a href="{:U('Service/getAll')}">维修内容管理</a></li>
-                <li><a href="{:U('Service/add')}">新建维修内容</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<form  action="{:U('Settlement/modify')}" method="POST" id="myForm">
-<input type="text" name="settle_id" value="{$settle_id}">
-<table class="table table-bordered table-hover">
-    <caption class="text-center"><h1>垫江县福源汽修</h1></caption>
-    <tr>
-        <td colspan="12" class="text-center"><h4>结算单</h4></td>
-    </tr>
-    <tr>
-        <td>送修单位</td>
-        <td colspan="7"><input type="text" name="repair_unit" value="{$data['repair_unit']}"/></td>
-        <td>工号</td>
-        <td colspan="3"><input type="text" name="job_number" value="{$data[job_number]}"></td>
-    </tr>
-    <tr>
-        <td>车牌号</td>
-        <td colspan="3"><input type="text" name="plate_number" value="{$data['plate_number']}"></td>
-        <td>联系人</td>
-        <td colspan="3"><input type="text" name="contact_man" value="{$data['contact_man']}"></td>
-        <td>联系电话</td>
-        <td colspan="3"><input type="text" name="contact_phone" value="{$data['contact_phone']}"></td>
-    </tr>
-    <tr>
-        <td>车型</td>
-        <td colspan="3"><input type="text" name="car_type" value="{$data['car_type']}"></td>
-        <td>底盘号</td>
-        <td colspan="3"><input type="text" name="chassis_number" value="{$data['chassis_number']}"></td>
-        <td>发动机号</td>
-        <td colspan="3"><input type="text" name="engine_number" value="{$data['engine_number']}"></td>
-    </tr>
-    <tr>
-        <td>送修日期</td>
-        <td colspan="3"><input type="text" name="start_repair_date" value="{$data['start_repair_date']}"></td>
-        <td>里程</td>
-        <td colspan="3"><input type="text" name="mileage" value="{$data['mileage']}"></td>
-        <td>维修类型</td>
-        <td colspan="3"><input type="text" name="repair_type" value="{$data['repair_type']}"></td>
-    </tr>
-    <tr>
-        <td colspan="12" class="text-center"><h4>维修内容</h4></td>
-    </tr>
-    <tr>
-        <td>序号</td>
-        <td colspan="6">维修项目</td>
-        <td>工时费</td>
-        <td>工段</td>
-        <td colspan="2">维修人</td>
-        <td>性质</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td colspan="6"></td>
-        <td></td>
-        <td></td>
-        <td colspan="2"></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td colspan="12" class="text-center"><a href="#" class="btn btn-primary">添加维修内容</a></td>
-    </tr>
-    <tr>
-        <td colspan="12" class="text-center"><h4>材料清单</h4></td>
-    </tr>
-    <tr>
-        <td>序号</td>
-        <td colspan="2">配件件号</td>
-        <td colspan="3">配件名称</td>
-        <td>单位</td>
-        <td>单价</td>
-        <td>数量</td>
-        <td colspan="2">金额</td>
-        <td>性质</td>
-    </tr>
-    <foreach name="materials" item="material">
-        <tr>
-            <td>1</td>
-            <td colspan="2">{$material.number}</td>
-            <td colspan="3">{$material.name}</td>
-            <td>{$material.unit}</td>
-            <td name="{$material.material_id}_unit_price_local">{$material.unit_price}</td>
-            <input type="text" name="{$material.material_id}_unit_price" value="{$material.unit_price}" hidden="true"/>
-            <td><input type="text" value="{$material.quantity}" name="{$material.material_id}_quantity"></td>
-            <td colspan="2"><input type="text" value="{$material.money}" name="{$material.material_id}_money"></td>
-            <td>{$material.nature}</td>
-        </tr>
-    </foreach>
-    <tr>
-        <td colspan="12" class="text-center"><a href="{:U('Material/chooseMaterial?settle_id='.$settle_id)}" class="btn btn-primary">添加维修材料</a></td>
-    </tr>
-    <tr style="height: 50px;">
-        <td>材料费</td>
-        <td>管理费</td>
-        <td>材料优惠</td>
-        <td>工时费</td>
-        <td>工时优惠</td>
-        <td>辅料费</td>
-        <td>外加工</td>
-        <td>其他费用</td>
-        <td>三包/事故材料</td>
-        <td>优惠</td>
-        <td>三包/事故工时</td>
-        <td>优惠</td>
-    </tr>
-    <tr>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-        <td>0.00</td>
-    </tr>
-    <tr>
-        <td colspan="2">三包/事故费用</td>
-        <td colspan="2"></td>
-        <td>优惠合计</td>
-        <td colspan="2"></td>
-        <td>应付</td>
-        <td colspan="4"></td>
-    </tr>
-    <tr>
-        <td colspan="2">正常费用合计</td>
-        <td colspan="2"></td>
-        <td>优惠合计</td>
-        <td colspan="2"></td>
-        <td>车主应付</td>
-        <td colspan="2"></td>
-        <td>预付金额</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td colspan="2">应收费用大写</td>
-        <td colspan="5"></td>
-        <td>收款(车主)</td>
-        <td colspan="2"></td>
-        <td>欠款(车主)</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>备注</td>
-        <td colspan="6"></td>
-        <td>付款方式</td>
-        <td></td>
-        <td>顾客签字</td>
-        <td colspan="2"></td>
-    </tr>
-    <tr>
-        <td>地址</td>
-        <td colspan="6"><input type="text" name="address" value="{$data['address']}"></td>
-        <td>联系方式</td>
-        <td colspan="4"><input type="text" name="my_contact_method" value="{$data['my_contact_method']}"></td>
-    </tr>
-    <tr>
-        <td>传真</td>
-        <td colspan="2"><input type="text" name="fax" value="{$data['fax']}"></td>
-        <td>结算人</td>
-        <td colspan="3"><input type="text" name="settle_man" value="{$data['settle_man']}"></td>
-        <td>结算日期</td>
-        <td colspan="4"><input type="text" name="settle_date" value="{$data['settle_date']}"></td>
-    </tr>
-    <tr>
-        <td>开户行</td>
-        <td colspan="6"><input type="text" name="open_bank" value="{$data['open_bank']}"></td>
-        <td>账号</td>
-        <td colspan="4"><input type="text" name="account" value="{$data['account']}"></td>
-    </tr>
-    <tr>
-        <td colspan="12" class="text-center">
-                <input type="button" class="btn btn-success btn-lg" name="" value="保存结算单" onclick="formSubmit()"/>
-        </td>
-    </tr>
-    <tr>
-            <td colspan="12" class="text-center">
+    </nav>
+    <form action="{:U('Settlement/modify')}" method="POST" id="myForm">
+        <input type="text" name="settle_id" value="{$settle_id}">
+        <table class="table table-bordered table-hover">
+            <caption class="text-center">
+                <h1>垫江县福源汽修</h1>
+            </caption>
+            <tr>
+                <td colspan="12" class="text-center">
+                    <h4>结算单</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>送修单位</td>
+                <td colspan="7"><input type="text" name="repair_unit" value="{$data['repair_unit']}" /></td>
+                <td>工号</td>
+                <td colspan="3"><input type="text" name="job_number" value="{$data[job_number]}"></td>
+            </tr>
+            <tr>
+                <td>车牌号</td>
+                <td colspan="3"><input type="text" name="plate_number" value="{$data['plate_number']}"></td>
+                <td>联系人</td>
+                <td colspan="3"><input type="text" name="contact_man" value="{$data['contact_man']}"></td>
+                <td>联系电话</td>
+                <td colspan="3"><input type="text" name="contact_phone" value="{$data['contact_phone']}"></td>
+            </tr>
+            <tr>
+                <td>车型</td>
+                <td colspan="3"><input type="text" name="car_type" value="{$data['car_type']}"></td>
+                <td>底盘号</td>
+                <td colspan="3"><input type="text" name="chassis_number" value="{$data['chassis_number']}"></td>
+                <td>发动机号</td>
+                <td colspan="3"><input type="text" name="engine_number" value="{$data['engine_number']}"></td>
+            </tr>
+            <tr>
+                <td>送修日期</td>
+                <td colspan="3"><input type="text" name="start_repair_date" value="{$data['start_repair_date']}"></td>
+                <td>里程</td>
+                <td colspan="3"><input type="text" name="mileage" value="{$data['mileage']}"></td>
+                <td>维修类型</td>
+                <td colspan="3"><input type="text" name="repair_type" value="{$data['repair_type']}"></td>
+            </tr>
+            <tr>
+                <td colspan="12" class="text-center">
+                    <h4>维修内容</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td colspan="6">维修项目</td>
+                <td>工时费</td>
+                <td>工段</td>
+                <td colspan="2">维修人</td>
+                <td>性质</td>
+            </tr>
+            <foreach name="services" item="service">
+                <tr>
+                    <td>1</td>
+                    <td colspan="6">{$service.project}</td>
+                    <td>{$service.hourly_wage}</td>
+                    <input type="text" name="{$service.service_id}_hourly_wage" value="{$service.hourly_wage}" hidden="true">
+                    <td>{$service.section}</td>
+                    <td colspan="2">{$service.repair_man}</td>
+                    <td>{$service.nature}</td>
+                </tr>
+            </foreach>
+            <tr>
+                <td colspan="12" class="text-center"><a href="{:U('Service/chooseService?settle_id='.$settle_id)}" class="btn btn-primary">添加维修内容</a></td>
+            </tr>
+            <tr>
+                <td colspan="12" class="text-center">
+                    <h4>材料清单</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td colspan="2">配件件号</td>
+                <td colspan="3">配件名称</td>
+                <td>单位</td>
+                <td>单价</td>
+                <td>数量</td>
+                <td colspan="2">金额</td>
+                <td>性质</td>
+            </tr>
+            <foreach name="materials" item="material">
+                <tr>
+                    <td>1</td>
+                    <td colspan="2">{$material.number}</td>
+                    <td colspan="3">{$material.name}</td>
+                    <td>{$material.unit}</td>
+                    <td name="{$material.material_id}_unit_price_local">{$material.unit_price}</td>
+                    <input type="text" name="{$material.material_id}_unit_price" value="{$material.unit_price}" hidden="true" />
+                    <td><input type="text" value="{$material.quantity}" name="{$material.material_id}_quantity"></td>
+                    <td colspan="2"><input type="text" value="{$material.money}" name="{$material.material_id}_money"></td>
+                    <td>{$material.nature}</td>
+                </tr>
+            </foreach>
+            <tr>
+                <td colspan="12" class="text-center"><a href="{:U('Material/chooseMaterial?settle_id='.$settle_id)}" class="btn btn-primary">添加维修材料</a></td>
+            </tr>
+            <tr style="height: 50px;">
+                <td>材料费</td>
+                <td>材料优惠</td>
+                <td>管理费</td>
+                <td>工时费</td>
+                <td>工时优惠</td>
+                <td>辅料费</td>
+                <td>外加工</td>
+                <td>其他费用</td>
+                <td>三包/事故材料</td>
+                <td>优惠</td>
+                <td>三包/事故工时</td>
+                <td>优惠</td>
+            </tr>
+            <tr>
+                <td><input class="col_md_1 input_width_100" type="text" name="sum_material_cost" value="{$data['sum_material_cost']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="sum_material_cost_discount" value="{$data['sum_material_cost_discount']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="sum_manage_cost" value="{$data['sum_manage_cost']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="sum_hourly_wage_cost" value="{$data['sum_hourly_wage_cost']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="sum_hourly_wage_cost_discount" value="{$data['sum_hourly_wage_cost_discount']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="accessories_cost" value="{$data['accessories_cost']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="outer_process_cost" value="{$data['outer_process_cost']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="other_cost" value="{$data['other_cost']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="three_packs_or_accident_material" value="{$data['three_packs_or_accident_material']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="three_packs_or_accident_material_discount" value="{$data['three_packs_or_accident_material_discount']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="three_packs_or_accident_hourly" value="{$data['three_packs_or_accident_hourly']}"></td>
+                <td><input class="col_md_1 input_width_100" type="text" name="three_packs_or_accident_hourly_discount" value="{$data['three_packs_or_accident_hourly_discount']}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">三包/事故费用</td>
+                <td colspan="2"><input type="text" name="three_packs_or_accident_cost" value="{$data['three_packs_or_accident_cost']}"></td>
+                <td>优惠合计</td>
+                <td colspan="2"><input type="text" name="three_packs_or_accident_discount" value="{$data['three_packs_or_accident_discount']}"></td>
+                <td>应付</td>
+                <td colspan="4"><input type="text" name="three_packs_or_accident_should_pay" value="{$data['three_packs_or_accident_should_pay']}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">正常费用合计</td>
+                <td colspan="2"><input type="text" name="sum_common_cost" value="{$data['sum_common_cost']}"></td>
+                <td>优惠合计</td>
+                <td colspan="2"><input type="text" name="sum_common_discount" value="{$data['sum_common_discount']}"></td>
+                <td>车主应付</td>
+                <td colspan="2"><input type="text" name="car_owner_should_pay" value="{$data['car_owner_should_pay']}"></td>
+                <td>预付金额</td>
+                <td><input type="text" name="pay_in_advance" value="{$data['pay_in_advance']}" class="input_width_100"></td>
+            </tr>
+            <tr>
+                <td colspan="2">应收费用大写</td>
+                <td colspan="5"><input type="text" name="should_pay_in_chinese" value="{$data['should_pay_in_chinese']}"></td>
+                <td>收款(车主)</td>
+                <td colspan="2"><input type="text" name="car_owner_receipt" value="{$data['car_owner_receipt']}"></td>
+                <td>欠款(车主)</td>
+                <td><input type="text" name="car_owner_arrears" value="{$dta['car_owner_arrears']}" class="input_width_100"></td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td colspan="6"><input type="text" name="remark" value="{$dta['remark']}"></td>
+                <td>付款方式</td>
+                <td><input type="text" name="pay_method" value="{$data['pay_method']}" class="input_width_100"></td>
+                <td>顾客签字</td>
+                <td colspan="2"><input type="text" name="customer_signature" value="{$data['customer_signature']}"></td>
+            </tr>
+            <tr>
+                <td>地址</td>
+                <td colspan="6"><input type="text" name="address" value="{$data['address']}"></td>
+                <td>联系方式</td>
+                <td colspan="4"><input type="text" name="my_contact_method" value="{$data['my_contact_method']}"></td>
+            </tr>
+            <tr>
+                <td>传真</td>
+                <td colspan="2"><input type="text" name="fax" value="{$data['fax']}"></td>
+                <td>结算人</td>
+                <td colspan="3"><input type="text" name="settle_man" value="{$data['settle_man']}"></td>
+                <td>结算日期</td>
+                <td colspan="4"><input type="text" name="settle_date" value="{$data['settle_date']}"></td>
+            </tr>
+            <tr>
+                <td>开户行</td>
+                <td colspan="6"><input type="text" name="open_bank" value="{$data['open_bank']}"></td>
+                <td>账号</td>
+                <td colspan="4"><input type="text" name="account" value="{$data['account']}"></td>
+            </tr>
+            <tr>
+                <td colspan="12" class="text-center">
+                    <input type="button" class="btn btn-success btn-lg" name="" value="保存结算单" onclick="formSubmit()" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12" class="text-center">
                     <!-- <input type="button" class="btn btn-success btn-lg" name="" value="" onclick="formSubmit()"/> -->
                     <!--<a herf="{:U('Settlement/show?settle_id'.$settle_id)}" class="btn btn-info">预览结算单</a>-->
-                     <a href="{:U('Settlement/show?settle_id='.$settle_id)}" class="btn btn-primary" target="_blank">预览结算单</a>
-            </td>
-        </tr>
-    <tr>
-        <td colspan="12" class="text-center"><h3>谢谢惠顾</h3></td>
-    </tr>
-</table>
-</form>
-<script>
-
+                    <a href="{:U('Settlement/show?settle_id='.$settle_id)}" class="btn btn-primary" target="_blank">预览结算单</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12" class="text-center">
+                    <h3>谢谢惠顾</h3>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
     function formSubmit() {
         document.getElementById("myForm").submit();
     }
@@ -227,18 +251,106 @@
         var quantities = document.querySelectorAll("input[name$='quantity']");
         var moneyAll = document.querySelectorAll("input[name$='money']");
         var unit_prices = document.querySelectorAll("td[name$='unit_price_local']");
+        var sum_material_cost = document.querySelector("input[name='sum_material_cost']");
+        var hourly_wages = document.querySelectorAll("input[name$='hourly_wage']");
+        var sum_hourly_wage_cost = document.querySelector("input[name='sum_hourly_wage_cost']");
         // alert(quantities.length);
-        for (let i = 0; i < quantities.length; i++) {
-            // alert("fafa");
-            quantities[i].addEventListener('keyup', () => {
-                let money = 0;
-                let quantity = quantities[i].value;
-                let unit_price = unit_prices[i].innerText;
-                money = quantity * unit_price;
-                moneyAll[i].value = money;
-            } );
+        // for (let i = 0; i < quantities.length; i++) {
+        //     // alert("fafa");
+        //     quantities[i].addEventListener('keyup', () => {
+        //         let money = 0;
+        //         let quantity = quantities[i].value;
+        //         let unit_price = unit_prices[i].innerText;
+        //         money = quantity * unit_price;
+        //         moneyAll[i].value = money;
+        //         let sum_material_cost_value = 0;
+        //         //计算材料费
+        //         for (let j = 0; j < quantities.length; j++) {
+        //             sum_material_cost_value += getInt(moneyAll[j].value);
+        //         }
+        //         sum_material_cost.value = sum_material_cost_value;
+        //     } );
+        // }
+        // 计算工时费
+        let sum_hourly_wage_cost_value = 0;
+        for (let i = 0; i < hourly_wages.length; i++) {
+            sum_hourly_wage_cost_value += getInt(hourly_wages[i].value);
+        }
+        sum_hourly_wage_cost.value = sum_hourly_wage_cost_value; 
+
+        var sum_common_cost = document.querySelector("input[name='sum_common_cost']");
+        var sum_common_discount = document.querySelector("input[name='sum_common_discount']");
+        // var should_pay = document.querySelector("input[name='should_pay']");
+
+        var sum_material_cost_discount = document.querySelector("input[name='sum_material_cost_discount']");
+        var sum_manage_cost = document.querySelector("input[name='sum_manage_cost']");
+        var sum_hourly_wage_cost_discount = document.querySelector("input[name='sum_hourly_wage_cost_discount']");
+        var accessories_cost = document.querySelector("input[name='accessories_cost']");
+        var outer_process_cost = document.querySelector("input[name='outer_process_cost']");
+        var other_cost = document.querySelector("input[name='other_cost']");
+
+        var three_packs_or_accident_material = document.querySelector("input[name='three_packs_or_accident_material']");
+        var three_packs_or_accident_material_discount = document.querySelector("input[name='three_packs_or_accident_material_discount']");
+        var three_packs_or_accident_hourly = document.querySelector("input[name='three_packs_or_accident_hourly']");
+        var three_packs_or_accident_hourly_discount = document.querySelector("input[name='three_packs_or_accident_hourly_discount']");
+        var three_packs_or_accident_cost = document.querySelector("input[name='three_packs_or_accident_cost']");
+        var three_packs_or_accident_discount = document.querySelector("input[name='three_packs_or_accident_discount']");
+        var three_packs_or_accident_should_pay = document.querySelector("input[name='three_packs_or_accident_should_pay']");
+
+        var car_owner_should_pay = document.querySelector("input[name='car_owner_should_pay']");
+        var car_owner_arrears = document.querySelector("input[name='car_owner_arrears']");
+        var car_owner_receipt = document.querySelector("input[name='car_owner_receipt']");
+        // document.getElementById("myForm").submit();
+        var myForm = document.getElementById("myForm");
+        myForm.addEventListener('keyup', () => {
+            sum_common_cost.value = getInt(sum_material_cost.value) + getInt(sum_hourly_wage_cost.value)
+            + getInt(sum_manage_cost.value) + getInt(accessories_cost.value) + getInt(outer_process_cost.value)
+            + getInt(other_cost.value);
+
+            sum_common_discount.value = getInt(sum_material_cost_discount.value) + getInt(sum_hourly_wage_cost_discount.value);
+            
+            car_owner_should_pay.value = getInt(sum_common_cost.value) - getInt(sum_common_discount.value);
+
+            
+            for (let i = 0; i < quantities.length; i++) {
+                // alert("fafa");
+                quantities[i].addEventListener('keyup', () => {
+                    let money = 0;
+                    let quantity = quantities[i].value;
+                    let unit_price = unit_prices[i].innerText;
+                    money = quantity * unit_price;
+                    moneyAll[i].value = money;
+                    let sum_material_cost_value = 0;
+                    //计算材料费
+                    for (let j = 0; j < quantities.length; j++) {
+                        sum_material_cost_value += getInt(moneyAll[j].value);
+                    }
+                    sum_material_cost.value = sum_material_cost_value;
+                } );
+            }
+            
+            three_packs_or_accident_cost.value = getInt(three_packs_or_accident_hourly.value) + getInt(three_packs_or_accident_material.value);
+            three_packs_or_accident_discount.value = getInt(three_packs_or_accident_hourly_discount.value) + getInt(three_packs_or_accident_material_discount.value);
+            three_packs_or_accident_should_pay.value = getInt(three_packs_or_accident_cost.value) - getInt(three_packs_or_accident_discount.value);
+
+
+
+            // alert("reafaa");
+            // console.log("12321");
+        });
+        // myForm.addEventListener('click', () => {
+        //     // let sum_common_cost_
+        // })
+        function getInt(num) {
+            // console.log(isNaN(parseInt(num)));
+            if (isNaN(parseInt(num))) {
+                // alert('d');
+                return 0;
+            }
+            return parseInt(num);
         }
     }
 </script>
 </body>
+
 </html>

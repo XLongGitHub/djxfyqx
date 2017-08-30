@@ -204,13 +204,100 @@ class SettlementAction extends Action {
                     ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
                     ->where("i.settle_id = $settle_id")
                     ->select();
+                $Settle_service = M('Settle_service');
+                $services = $Settle_service->alias("i")
+                    ->join('LEFT JOIN qx_service s on s.id = i.service_id')
+                    ->field('s.project, s.hourly_wage, s.section, s.repair_man, s.nature, i.*')
+                    ->where("i.settle_id = $settle_id")
+                    ->select();
                 $this->assign("settle_id", $settle_id);
                 $this->assign("materials", $materials);
+                $this->assign("services", $services);
                 $this->assign("data", $data);
                 $this->display("add");
             }
         }
+    }
 
+    /**
+     * 添加维修服务
+     */
+    public function addService() {
+        $Settle_service = M("Settle_service");
+        $Settlement = M("Settlement");
+        if (IS_POST) {
+            $new_service_id = trim(I("post.new_id", "", "strval"));
+            $settle_id = I("post.settle_id", "", "strval");
+
+            if (!empty($new_service_id) && !empty($settle_id)) {
+                $two_old_service_ids = $Settle_service->field("service_id")->where("settle_id = $settle_id")->order("service_id")->select();
+                if ($two_old_service_ids == false) {
+                    $old_service_ids = array();
+                }
+                //降维
+                for ($i = 0; $i < count($two_old_service_ids); $i++) {
+                    $old_service_ids[] = $two_old_service_ids[$i]['service_id'];
+                }
+                //            var_dump($two_old_material_ids);
+                $new_service_ids = explode(" ", $new_service_id);
+                $same_ids = array_intersect($new_service_ids, $old_service_ids);
+                $new_diff_ids = array_diff($new_service_ids, $same_ids);
+                $old_diff_ids = array_diff($old_service_ids, $same_ids);
+
+                //            var_dump($same_ids);
+                //            var_dump($new_diff_ids);
+                //            var_dump($old_diff_ids);
+
+                //此处注意，返回结果数组索引的问题
+                //增加
+                for ($i = 0; $i < count($new_service_ids); $i++) {
+                    //                print_r($new_diff_ids);
+                    if (empty($new_diff_ids[$i])) continue;
+                    $data['settle_id'] = $settle_id;
+                    $data['service_id'] = $new_diff_ids[$i];
+                    //                var_dump("new_id ".$new_material_ids[$i]);
+                    $result_id = $Settle_service->data($data)->add();
+
+                    //                var_dump($result_id);
+                    var_dump($data);
+                    $data = array();
+                }
+                //删除
+                for ($i = 0; $i < count($old_service_ids); $i++) {
+                    if (empty($old_service_ids[$i])) continue;
+                    $Settle_service->where("settle_id = $settle_id and service_id = $old_diff_ids[$i]")->delete();
+                }
+                //暂时不变
+                for ($i = 0; $i < count($same_ids); $i++) {
+
+                }
+                //*********************************************************
+                $result = $Settlement->where("id = $settle_id")->select();
+                if (!empty($result)) {
+                    $data = $result[0];
+                } else {
+                    $data = null;
+                }
+//                $Settle_material = M("Settle_material");
+                $services = $Settle_service->alias("i")
+                    ->join('LEFT JOIN qx_service s on s.id = i.service_id')
+                    ->field('s.project, s.hourly_wage, s.section, s.repair_man, s.nature, i.*')
+                    ->where("i.settle_id = $settle_id")
+                    ->select();
+                $Settle_material = M("Settle_material");
+                $materials = $Settle_material->alias("i")
+                    ->join('LEFT JOIN qx_material m on m.id = i.material_id')
+                    ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
+                    ->where("i.settle_id = $settle_id")
+                    ->select();
+                $this->assign("materials", $materials);
+                $this->assign("settle_id", $settle_id);
+                $this->assign("services", $services);
+                $this->assign("data", $data);
+
+                $this->display("add");
+            }
+        }
     }
 
     /**
@@ -320,9 +407,16 @@ class SettlementAction extends Action {
                 ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
                 ->where("i.settle_id = $settle_id")
                 ->select();
+            $Settle_service = M("Settle_service");
+            $services = $Settle_service->alias("i")
+                ->join('LEFT JOIN qx_service s on s.id = i.service_id')
+                ->field('s.project, s.hourly_wage, s.section, s.repair_man, s.nature, i.*')
+                ->where("i.settle_id = $settle_id")
+                ->select();
 //                var_dump($materials);
             $this->assign("settle_id", $settle_id);
             $this->assign("materials", $materials);
+            $this->assign("services", $services);
             $this->assign("data", $data);
 //            var_dump($data);
 //            exit();
@@ -341,8 +435,15 @@ class SettlementAction extends Action {
                 ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
                 ->where("i.settle_id = $settle_id")
                 ->select();
+            $Settle_service = M("Settle_service");
+            $services = $Settle_service->alias("i")
+                ->join('LEFT JOIN qx_service s on s.id = i.service_id')
+                ->field('s.project, s.hourly_wage, s.section, s.repair_man, s.nature, i.*')
+                ->where("i.settle_id = $settle_id")
+                ->select();
             $this->assign("settle_id", $settle_id);
             $this->assign("materials", $materials);
+            $this->assign("services", $services);
             $this->assign("data", $data);
             $this->display("add");
         }
@@ -371,9 +472,9 @@ class SettlementAction extends Action {
         $this->assign("data", $data);
         $this->display();
     }
-    public function addService() {
-
-    }
+//    public function addService() {
+//
+//    }
 
     public function result() {
         $this->display();

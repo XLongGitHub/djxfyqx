@@ -75,4 +75,39 @@ class ServiceAction extends Action {
         $Service = M("Service");
         $Service->where("id = $id")->delete();
     }
+
+    public function chooseService()
+    {
+        if (IS_GET) {
+            $settle_id = I("get.settle_id", "", "strval");
+            $Service = M("Service");
+            $result = $Service->order("id desc")->select();
+
+            //预处理,判断是否已被选中
+            $Settle_service = M("Settle_service");
+            $two_choose_service_ids = $Settle_service->where("settle_id = $settle_id")
+                                        ->field("service_id as choose_service_id")->select();
+            $choose_service_ids = array();
+            for ($i = 0; $i < count($two_choose_service_ids); $i++) {
+                $choose_service_ids[] = $two_choose_service_ids[$i]['choose_service_id'];
+            }
+//            var_dump($choose_material_ids);
+            for ($i = 0; $i < count($result); $i++) {
+                if (in_array($result[$i]['id'], $choose_service_ids)) {
+                    $result[$i]['choose'] = "1";
+                } else {
+                    $result[$i]['choose'] = "0";
+                }
+            }
+//            var_dump($result);
+//            exit();
+
+            $this->assign("settle_id", $settle_id);
+            $this->assign("result", $result);
+            $this->display();
+        } else {
+            var_dump(I("post.new_id"));
+            exit();
+        }
+    }
 }

@@ -49,6 +49,7 @@ CREATE TABLE `qx_settlement` (
     `settle_date` VARCHAR(255) COMMENT '结算日期',
     `open_bank` VARCHAR(255) COMMENT '开户行',
     `account` VARCHAR(255) COMMENT '账号',
+    `sum_material_cost` VARCHAR(255) COMMENT '',
     `create_time` VARCHAR(20),
     `write_time` VARCHAR(20)
 );
@@ -64,6 +65,20 @@ CREATE TABLE `qx_settle_material`(
   `write_time` VARCHAR(20)
 );
 
+DROP TABLE IF EXISTS `qx_settle_service`;
+CREATE TABLE `qx_settle_service` (
+  `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+  `settle_id` INT(11) COMMENT '结算单id',
+  `service_id` INT(11) COMMENT '服务id',
+  `create_time` VARCHAR(20),
+  `write_time` VARCHAR(20)
+);
+
 INSERT INTO `qx_material` VALUES ('1', '11', '发动机', '台', '300', '正常', '0', null);
 INSERT INTO `qx_material` VALUES ('4', '12', '油漆', '瓶', '500', '正常', '0', null);
 INSERT INTO `qx_material` VALUES ('6', '14', '特级油漆', '瓶', '600', '正常', '0', null);
+
+INSERT INTO `qx_service` (`id`, `project`, `hourly_wage`, `section`, `repair_man`, `nature`, `create_time`, `write_time`) VALUES
+  (1, '发动机', '200', '电工', '张三', '正常', NULL, NULL),
+  (2, '轮胎', '100', '电工', '李四', '正常', NULL, NULL),
+  (3, '车身', '500', '焊工、钳工', '王五', '正常', NULL, NULL);

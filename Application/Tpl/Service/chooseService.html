@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>选择服务</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<nav class="navbar navbar-default nav-justified" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">垫江县福源汽修</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class=""><a href="{:U('Settlement/add')}">新建结算清单</a></li>
+                <li><a href="{:U('Material/getAll')}">维修材料管理</a></li>
+                <li><a href="{:U('Material/add')}">新建维修材料</a></li>
+                <li><a href="{:U('Service/getAll')}">维修内容管理</a></li>
+                <li><a href="{:U('Service/add')}">新建维修内容</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<form role="form" class="form-horizontal" method="post" id="myForm" action="{:U('Settlement/addService')}">
+
+    <table class="table table-bordered">
+        <caption class="text-center">
+            <h2>服务列表</h2>
+        </caption>
+        <thead>
+        <tr>
+            <td>序号</td>
+            <td>维修项目</td>
+            <td>工时费</td>
+            <td>工段</td>
+            <td>维修人</td>
+            <td>性质</td>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="result" item="item">
+            <tr>
+                <td class="item_id">{$item.id}</td>
+                <td>{$item.project}</td>
+                <td>{$item.hourly_wage}</td>
+                <td>{$item.section}</td>
+                <td>{$item.repair_man}</td>
+                <td>{$item.nature}</td>
+                <td class="status">
+                    <if condition="$item['choose'] eq '0'">未选中
+                        <else />已选中
+                    </if>
+                </td>
+                <td>
+                    <if condition="$item['choose'] eq '0'">
+                        <button type="button" class="btn btn-primary" name="choose">选中</button>
+                        <else />
+                        <button type="button" class="btn btn-warning" name="choose">取消</button>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+        <!--合成得到的材料id和结算单id-->
+        <input type="text" name="new_id" id="new_id">
+        <input type="text" name="settle_id" value="{$settle_id}">
+    </table>
+
+    <div class="form-group">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2">
+            <input type="button" class="btn btn-primary" name="" value="提交" onclick="formSubmit()"/>
+        </div>
+        <div class="col-sm-2">
+            <!--<input type="button" class="btn btn-primary" name="" value="返回" />-->
+            <a href="{:U('Settlement/modify?settle_id='.$settle_id)}" class="btn btn-primary">返回</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    buttons = document.querySelectorAll("button[name=choose]");
+    statuses = document.querySelectorAll("td[class=status]");
+    ids = document.querySelectorAll("td[class=item_id]");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function (event) {
+            if (buttons[i].innerText == "选中") {
+                buttons[i].innerText = "取消";
+                buttons[i].setAttribute("class", "btn btn-warning");
+                statuses[i].innerText = "已选中";
+            } else {
+                buttons[i].innerText = "选中";
+                buttons[i].setAttribute("class", "btn btn-primary");
+                statuses[i].innerText = "未选中";
+            }
+        })
+    }
+
+    function formSubmit() {
+        var new_id = "";
+
+        for (let m = 0; m < buttons.length; m++) {
+            if (statuses[m].innerText == "已选中") {
+                new_id += ids[m].innerText + " ";
+            } else {
+            }
+        }
+        var new_id_node = document.getElementById("new_id");
+        new_id_node.value = new_id;
+//            alert(new_id);
+        document.getElementById("myForm").submit();
+    }
+
+    //        function createIds() {
+    //            var new_id = "";
+    //
+    //            for (let m = 0; m < buttons.length; m++) {
+    //                if (statuses[m].innerText == "已选中") {
+    //                    new_id += ids[m].innerText + ",";
+    ////                    alert(ids[m].innerText);
+    ////                    alert(new_id);
+    //                } else {
+    ////                    alert("2");
+    //                }
+    //            }
+    //            var new_id_node = document.getElementById("new_id");
+    //            new_id_node.value = new_id;
+    //        }
+
+    //        var form = document.getElementById("myForm");
+    //        form.addEventListener("submit")
+</script>
+
+</body>
+
+</html>
