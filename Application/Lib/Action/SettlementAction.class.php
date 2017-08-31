@@ -326,7 +326,32 @@ class SettlementAction extends Action {
             $settle_man = I("post.settle_man", "", "strval");
             $settle_date = I("post.settle_date", "", "strval");
             $open_bank = I("post.open_bank", "", "strval");
-            $account = I("account");
+            $account = I("post.account", "", "strval");
+            $sum_material_cost = I("post.sum_material_cost", "", "strval");
+            $sum_material_cost_discount = I("post.sum_material_cost_discount", "", "strval");
+            $sum_manage_cost = I("post.sum_manage_cost", "", "strval");
+            $sum_hourly_wage_cost = I("post.sum_hourly_wage_cost", "", "strval");
+            $sum_hourly_wage_cost_discount = I("post.sum_hourly_wage_cost_discount", "", "strval");            
+            $accessories_cost = I("post.accessories_cost", "", "strval");
+            $outer_process_cost = I("post.outer_process_cost", "", "strval");
+            $other_cost = I("post.other_cost", "", "strval");
+            $three_packs_or_accident_material = I("post.three_packs_or_accident_material", "", "strval");
+            $three_packs_or_accident_material_discount = I("post.three_packs_or_accident_material_discount", "", "strval");
+            $three_packs_or_accident_hourly = I("post.three_packs_or_accident_hourly", "", "strval");
+            $three_packs_or_accident_hourly_discount = I("post.three_packs_or_accident_hourly_discount", "", "strval");
+            $three_packs_or_accident_cost = I("post.three_packs_or_accident_cost", "", "strval");
+            $three_packs_or_accident_discount = I("post.three_packs_or_accident_discount", "", "strval");
+            $three_packs_or_accident_should_pay = I("post.three_packs_or_accident_should_pay", "", "strval");
+            $sum_common_cost = I("post.sum_common_cost", "", "strval");
+            $sum_common_discount = I("post.sum_common_discount", "", "strval");
+            $car_owner_should_pay = I("post.car_owner_should_pay", "", "strval");
+            $pay_in_advance = I("post.pay_in_advance", "", "strval");
+            $should_pay_in_chinese = I("post.should_pay_in_chinese", "", "strval");
+            $car_owner_receipt = I("post.car_owner_receipt", "", "strval");
+            $car_owner_arrears = I("post.car_owner_arrears", "", "strval");
+            $remark = I("post.remark", "", "strval");
+            $pay_method = I("post.pay_method", "", "strval");
+            $customer_signature = I("post.customer_signature", "", "strval");
             $create_time = 0;
             $write_time = 0;
 
@@ -348,6 +373,33 @@ class SettlementAction extends Action {
             $data['settle_date'] = $settle_date;
             $data['open_bank'] = $open_bank;
             $data['account'] = $account;
+            
+            $data['sum_material_cost'] = $sum_material_cost;
+            $data['sum_material_cost_discount'] = $sum_material_cost_discount;
+            $data['sum_manage_cost'] = $sum_manage_cost;
+            $data['sum_hourly_wage_cost'] = $sum_hourly_wage_cost;
+            $data['sum_hourly_wage_cost_discount'] = $sum_hourly_wage_cost_discount;
+            $data['accessories_cost'] = $accessories_cost;
+            $data['outer_process_cost'] = $outer_process_cost;
+            $data['other_cost'] = $other_cost;
+            $data['three_packs_or_accident_material'] = $three_packs_or_accident_material;
+            $data['three_packs_or_accident_material_discount'] = $three_packs_or_accident_material_discount;
+            $data['three_packs_or_accident_hourly'] = $three_packs_or_accident_hourly;
+            $data['three_packs_or_accident_hourly_discount'] = $three_packs_or_accident_hourly_discount;
+            $data['three_packs_or_accident_cost'] = $three_packs_or_accident_cost;
+            $data['three_packs_or_accident_discount'] = $three_packs_or_accident_cost;
+            $data['three_packs_or_accident_should_pay'] = $three_packs_or_accident_should_pay;
+            $data['sum_common_cost'] = $sum_common_cost;
+            $data['sum_common_discount'] = $sum_common_discount;
+            $data['car_owner_should_pay'] = $car_owner_should_pay;
+            $data['pay_in_advance'] = $pay_in_advance;
+            $data['should_pay_in_chinese'] = $should_pay_in_chinese;
+            $data['car_owner_receipt'] = $car_owner_receipt;
+            $data['car_owner_arrears'] = $car_owner_arrears;
+            $data['remark'] = $remark;
+            $data['pay_method'] = $pay_method;
+            $data['customer_signature'] = $customer_signature;
+
             $data['create_time'] = $create_time;
             $data['write_time'] = $write_time;
 //         记录数量金额
@@ -386,6 +438,7 @@ class SettlementAction extends Action {
                 var_dump("add");
             } else {
                 $result_id = $Settlement->where("id = $settle_id")->save($data);
+                var_dump($data);
                 var_dump("save");
             }
 //            var_dump($result_id);
@@ -467,8 +520,15 @@ class SettlementAction extends Action {
             ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
             ->where("i.settle_id = $settle_id")
             ->select();
+        $Settle_service = M("Settle_service");
+        $services = $Settle_service->alias("i")
+            ->join('LEFT JOIN qx_service s on s.id = i.service_id')
+            ->field('s.project, s.hourly_wage, s.section, s.repair_man, s.nature, i.*')
+            ->where("i.settle_id = $settle_id")
+            ->select();
         $this->assign("settle_id", $settle_id);
         $this->assign("materials", $materials);
+        $this->assign("services", $services);
         $this->assign("data", $data);
         $this->display();
     }

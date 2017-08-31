@@ -193,11 +193,11 @@
                 <td>收款(车主)</td>
                 <td colspan="2"><input type="text" name="car_owner_receipt" value="{$data['car_owner_receipt']}"></td>
                 <td>欠款(车主)</td>
-                <td><input type="text" name="car_owner_arrears" value="{$dta['car_owner_arrears']}" class="input_width_100"></td>
+                <td><input type="text" name="car_owner_arrears" value="{$data['car_owner_arrears']}" class="input_width_100"></td>
             </tr>
             <tr>
                 <td>备注</td>
-                <td colspan="6"><input type="text" name="remark" value="{$dta['remark']}"></td>
+                <td colspan="6"><input type="text" name="remark" value="{$data['remark']}"></td>
                 <td>付款方式</td>
                 <td><input type="text" name="pay_method" value="{$data['pay_method']}" class="input_width_100"></td>
                 <td>顾客签字</td>
@@ -223,6 +223,13 @@
                 <td>账号</td>
                 <td colspan="4"><input type="text" name="account" value="{$data['account']}"></td>
             </tr>
+
+            <!-- <tr>
+                <td colspan="12" class="text-center">
+                    <input type="button" class="btn btn-waring btn-lg" name="" value="请点击此处进行计算核对" onclick="calculate()" />
+                    <span id="calculate_tip"></span>
+                </td>
+            </tr>
             <tr>
                 <td colspan="12" class="text-center">
                     <input type="button" class="btn btn-success btn-lg" name="" value="保存结算单" onclick="formSubmit()" />
@@ -230,11 +237,26 @@
             </tr>
             <tr>
                 <td colspan="12" class="text-center">
-                    <!-- <input type="button" class="btn btn-success btn-lg" name="" value="" onclick="formSubmit()"/> -->
-                    <!--<a herf="{:U('Settlement/show?settle_id'.$settle_id)}" class="btn btn-info">预览结算单</a>-->
                     <a href="{:U('Settlement/show?settle_id='.$settle_id)}" class="btn btn-primary" target="_blank">预览结算单</a>
                 </td>
+            </tr> -->
+
+
+            <tr>
+                <td colspan="4" class="text-center">
+                    <input type="button" class="btn btn-warning btn-lg" name="" value="请点击此处进行计算核对" onclick="calculate()" />
+                    <span id="calculate_tip"></span>
+                </td>           
+                <td colspan="4" class="text-center">
+                    <input type="button" class="btn btn-success btn-lg" name="" value="保存结算单" onclick="formSubmit()" />
+                </td>
+                <td colspan="4" class="text-center">
+                    <!-- <input type="button" class="btn btn-success btn-lg" name="" value="" onclick="formSubmit()"/> -->
+                    <!--<a herf="{:U('Settlement/show?settle_id'.$settle_id)}" class="btn btn-info">预览结算单</a>-->
+                    <a href="{:U('Settlement/show?settle_id='.$settle_id)}" class="btn btn-primary btn-lg" target="_blank" onclick="preview()">预览结算单</a>
+                </td>
             </tr>
+
             <tr>
                 <td colspan="12" class="text-center">
                     <h3>谢谢惠顾</h3>
@@ -243,6 +265,75 @@
         </table>
     </form>
     <script>
+
+        function priview() {
+            return true;
+        }
+
+    function calculate() {
+        var quantities = document.querySelectorAll("input[name$='quantity']");
+        var moneyAll = document.querySelectorAll("input[name$='money']");
+        var unit_prices = document.querySelectorAll("td[name$='unit_price_local']");
+        var sum_material_cost = document.querySelector("input[name='sum_material_cost']");
+        var hourly_wages = document.querySelectorAll("input[name$='hourly_wage']");
+        var sum_hourly_wage_cost = document.querySelector("input[name='sum_hourly_wage_cost']");
+       
+        // 计算工时费
+        let sum_hourly_wage_cost_value = 0;
+        for (let i = 0; i < hourly_wages.length; i++) {
+            sum_hourly_wage_cost_value += getInt(hourly_wages[i].value);
+        }
+        sum_hourly_wage_cost.value = sum_hourly_wage_cost_value; 
+        var sum_common_cost = document.querySelector("input[name='sum_common_cost']");
+        var sum_common_discount = document.querySelector("input[name='sum_common_discount']");
+        var sum_material_cost_discount = document.querySelector("input[name='sum_material_cost_discount']");
+        var sum_manage_cost = document.querySelector("input[name='sum_manage_cost']");
+        var sum_hourly_wage_cost_discount = document.querySelector("input[name='sum_hourly_wage_cost_discount']");
+        var accessories_cost = document.querySelector("input[name='accessories_cost']");
+        var outer_process_cost = document.querySelector("input[name='outer_process_cost']");
+        var other_cost = document.querySelector("input[name='other_cost']");
+        var three_packs_or_accident_material = document.querySelector("input[name='three_packs_or_accident_material']");
+        var three_packs_or_accident_material_discount = document.querySelector("input[name='three_packs_or_accident_material_discount']");
+        var three_packs_or_accident_hourly = document.querySelector("input[name='three_packs_or_accident_hourly']");
+        var three_packs_or_accident_hourly_discount = document.querySelector("input[name='three_packs_or_accident_hourly_discount']");
+        var three_packs_or_accident_cost = document.querySelector("input[name='three_packs_or_accident_cost']");
+        var three_packs_or_accident_discount = document.querySelector("input[name='three_packs_or_accident_discount']");
+        var three_packs_or_accident_should_pay = document.querySelector("input[name='three_packs_or_accident_should_pay']");
+        var car_owner_should_pay = document.querySelector("input[name='car_owner_should_pay']");
+        var car_owner_arrears = document.querySelector("input[name='car_owner_arrears']");
+        var car_owner_receipt = document.querySelector("input[name='car_owner_receipt']");
+        var myForm = document.getElementById("myForm");
+        // myForm.addEventListener('keyup', () => {
+            sum_common_cost.value = getInt(sum_material_cost.value) + getInt(sum_hourly_wage_cost.value)
+            + getInt(sum_manage_cost.value) + getInt(accessories_cost.value) + getInt(outer_process_cost.value)
+            + getInt(other_cost.value);
+            sum_common_discount.value = getInt(sum_material_cost_discount.value) + getInt(sum_hourly_wage_cost_discount.value);
+            car_owner_should_pay.value = getInt(sum_common_cost.value) - getInt(sum_common_discount.value);
+            for (let i = 0; i < quantities.length; i++) {
+                // quantities[i].addEventListener('keyup', () => {
+                    let money = 0;
+                    let quantity = quantities[i].value;
+                    let unit_price = unit_prices[i].innerText;
+                    money = quantity * unit_price;
+                    moneyAll[i].value = money;
+                    let sum_material_cost_value = 0;
+                    //计算材料费
+                    for (let j = 0; j < quantities.length; j++) {
+                        sum_material_cost_value += getInt(moneyAll[j].value);
+                    }
+                    sum_material_cost.value = sum_material_cost_value;
+                // } );
+            }
+            
+            three_packs_or_accident_cost.value = getInt(three_packs_or_accident_hourly.value) + getInt(three_packs_or_accident_material.value);
+            three_packs_or_accident_discount.value = getInt(three_packs_or_accident_hourly_discount.value) + getInt(three_packs_or_accident_material_discount.value);
+            three_packs_or_accident_should_pay.value = getInt(three_packs_or_accident_cost.value) - getInt(three_packs_or_accident_discount.value);
+        // });
+        // alert("计算")
+        var calculate_tip = document.getElementById("calculate_tip");
+        calculate_tip.innerText = "计算核对完成";
+    }
+
     function formSubmit() {
         document.getElementById("myForm").submit();
     }
@@ -341,7 +432,9 @@
         // myForm.addEventListener('click', () => {
         //     // let sum_common_cost_
         // })
-        function getInt(num) {
+    }
+
+    function getInt(num) {
             // console.log(isNaN(parseInt(num)));
             if (isNaN(parseInt(num))) {
                 // alert('d');
@@ -349,8 +442,34 @@
             }
             return parseInt(num);
         }
-    }
 </script>
 </body>
 
 </html>
+<!-- sum_material_cost sum_material_cost_discount sum_manage_cost sum_hourly_wage_cost sum_hourly_wage_cost_discount accessories_cost outer_process_cost other_cost three_packs_or_accident_material three_packs_or_accident_material_discount three_packs_or_accident_hourly three_packs_or_accident_hourly_discount three_packs_or_accident_cost three_packs_or_accident_discount three_packs_or_accident_should_pay sum_common_cost sum_common_discount car_owner_should_pay pay_in_advance should_pay_in_chinese car_owner_receipt car_owner_arrears remark pay_method customer_signature -->
+<!-- 
+        sum_material_cost 
+        sum_material_cost_discount 
+        sum_manage_cost 
+        sum_hourly_wage_cost 
+        sum_hourly_wage_cost_discount 
+        accessories_cost 
+        outer_process_cost 
+        other_cost 
+        three_packs_or_accident_material 
+        three_packs_or_accident_material_discount 
+        three_packs_or_accident_hourly 
+        three_packs_or_accident_hourly_discount 
+        three_packs_or_accident_cost 
+        three_packs_or_accident_discount 
+        three_packs_or_accident_should_pay 
+        sum_common_cost 
+        sum_common_discount 
+        car_owner_should_pay 
+        pay_in_advance 
+        should_pay_in_chinese 
+        car_owner_receipt 
+        car_owner_arrears 
+        remark 
+        pay_method 
+        customer_signature -->

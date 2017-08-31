@@ -13,13 +13,20 @@
         .text-center {
             text-align: center
         }
+
+        table {
+            width: 100%;
+        }
+
+        .input_width_100 {
+            /* width: 100px; */
+            width: 100%;
+        }
     </style>
 </head>
 
 <body>
-    <!-- <form  action="{:U('Settlement/modify')}" method="POST" id="myForm"> -->
-    <!-- <input type="text" name="settle_id" value="{$settle_id}"> -->
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
         <caption class="text-center">
             <h1>垫江县福源汽修</h1>
         </caption>
@@ -71,14 +78,20 @@
             <td colspan="2">维修人</td>
             <td>性质</td>
         </tr>
-        <tr>
-            <td>1</td>
-            <td colspan="6"></td>
-            <td></td>
-            <td></td>
-            <td colspan="2"></td>
-            <td></td>
-        </tr>
+        <foreach name="services" item="service">
+            <tr>
+                <td>1</td>
+                <td colspan="6">{$service.project}</td>
+                <td>{$service.hourly_wage}</td>
+                <!-- <0{$service.service_id}_hourly_wage" {$service.hourly_wage}" hidden="true"> -->
+                <td>{$service.section}</td>
+                <td colspan="2">{$service.repair_man}</td>
+                <td>{$service.nature}</td>
+            </tr>
+        </foreach>
+        <!-- <tr>
+                <td colspan="12" class="text-center"><a href="{:U('Service/chooseService?settle_id='.$settle_id)}" class="btn btn-primary">添加维修内容</a></td>
+            </tr> -->
         <tr>
             <td colspan="12" class="text-center">
                 <h4>材料清单</h4>
@@ -100,16 +113,20 @@
                 <td colspan="2">{$material.number}</td>
                 <td colspan="3">{$material.name}</td>
                 <td>{$material.unit}</td>
-                <td name="{$material}-unit_price">{$material.unit_price}</td>
+                <td name="{$material.material_id}_unit_price_local">{$material.unit_price}</td>
+                <!-- <0{$material.material_id}_unit_price" {$material.unit_price}" hidden="true" /> -->
                 <td>{$material.quantity}</td>
                 <td colspan="2">{$material.money}</td>
                 <td>{$material.nature}</td>
             </tr>
         </foreach>
+        <!-- <tr> -->
+        <!-- <td colspan="12" class="text-center"><a href="{:U('Material/chooseMaterial?settle_id='.$settle_id)}" class="btn btn-primary">添加维修材料</a></td> -->
+        <!-- </tr> -->
         <tr style="height: 50px;">
             <td>材料费</td>
-            <td>管理费</td>
             <td>材料优惠</td>
+            <td>管理费</td>
             <td>工时费</td>
             <td>工时优惠</td>
             <td>辅料费</td>
@@ -121,69 +138,52 @@
             <td>优惠</td>
         </tr>
         <tr>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td>0.00</td>
+            <td>{$data['sum_material_cost']}</td>
+            <td>{$data['sum_material_cost_discount']}</td>
+            <td>{$data['sum_manage_cost']}</td>
+            <td>{$data['sum_hourly_wage_cost']}</td>
+            <td>{$data['sum_hourly_wage_cost_discount']}</td>
+            <td>{$data['accessories_cost']}</td>
+            <td>{$data['outer_process_cost']}</td>
+            <td>{$data['other_cost']}</td>
+            <td>{$data['three_packs_or_accident_material']}</td>
+            <td>{$data['three_packs_or_accident_material_discount']}</td>
+            <td>{$data['three_packs_or_accident_hourly']}</td>
+            <td>{$data['three_packs_or_accident_hourly_discount']}</td>
         </tr>
         <tr>
             <td colspan="2">三包/事故费用</td>
-            <td colspan="2"></td>
+            <td colspan="2">{$data['three_packs_or_accident_cost']}</td>
             <td>优惠合计</td>
-            <td colspan="2"></td>
+            <td colspan="2">{$data['three_packs_or_accident_discount']}</td>
             <td>应付</td>
-            <td colspan="4"></td>
+            <td colspan="4">{$data['three_packs_or_accident_should_pay']}</td>
         </tr>
         <tr>
             <td colspan="2">正常费用合计</td>
-            <td colspan="2"></td>
+            <td colspan="2">{$data['sum_common_cost']}</td>
             <td>优惠合计</td>
-            <td colspan="2"></td>
+            <td colspan="2">{$data['sum_common_discount']}</td>
             <td>车主应付</td>
-            <td colspan="2"></td>
+            <td colspan="2">{$data['car_owner_should_pay']}</td>
             <td>预付金额</td>
-            <td></td>
+            <td>{$data['pay_in_advance']}</td>
         </tr>
         <tr>
             <td colspan="2">应收费用大写</td>
-            <td colspan="5"></td>
+            <td colspan="5">{$data['should_pay_in_chinese']}</td>
             <td>收款(车主)</td>
-            <td colspan="2"></td>
+            <td colspan="2">{$data['car_owner_receipt']}</td>
             <td>欠款(车主)</td>
-            <td></td>
+            <td>{$data['car_owner_arrears']}</td>
         </tr>
         <tr>
             <td>备注</td>
-            <td colspan="6"></td>
+            <td colspan="6">{$data['remark']}</td>
             <td>付款方式</td>
-            <td></td>
+            <td>{$data['pay_method']}</td>
             <td>顾客签字</td>
-            <td colspan="2"></td>
-        </tr>
-    </table>
-    <table class="table">
-        <!-- 分十二格 -->
-        <tr hidden="true">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colspan="2">{$data['customer_signature']}</td>
         </tr>
         <tr>
             <td>地址</td>
@@ -205,14 +205,22 @@
             <td>账号</td>
             <td colspan="4">{$data['account']}</td>
         </tr>
-       
+        <!-- <tr>
+                <td colspan="12" class="text-center">
+                    <input type="button" class="btn btn-success btn-lg" name="" 保存结算单" onclick="formSubmit()" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12" class="text-center">
+                    <a href="{:U('Settlement/show?settle_id='.$settle_id)}" class="btn btn-primary" target="_blank">预览结算单</a>
+                </td>
+            </tr> -->
         <tr>
             <td colspan="12" class="text-center">
                 <h3>谢谢惠顾</h3>
             </td>
         </tr>
     </table>
-
 </body>
 
 </html>

@@ -3,8 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>选择服务</title>
+    <title>选择维修材料</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="Public/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="Public/css/bootstrap-switch.css" rel="stylesheet">-->
+    <!--<script src="Public/js/jquery-3.1.1.min.js"></script>-->
+    <!--<script src="Public/js/bootstrap-switch.js"></script>-->
+
+    <!-- <link href="Public/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link href="Public/css/bootstrap-switch.css" rel="stylesheet"> -->
+    <!-- <script src="Public/js/jquery-3.1.1.min.js"></script> -->
+    <!-- <script src="Public/js/bootstrap-switch.js"></script> -->
+
 </head>
 
 <body>
@@ -24,20 +34,31 @@
         </div>
     </div>
 </nav>
+<!--
+<form role="form" class="form-horizontal" method="post">
+<foreach name="result" item="item">
+    <div class="switch">
+        <label><input type="checkbox" value="" name="test">{$item.name}</label>
+    </div>
+</foreach>
+<input type="submit">
+</form> -->
+
 <form role="form" class="form-horizontal" method="post" id="myForm" action="{:U('Settlement/addService')}">
 
     <table class="table table-bordered">
         <caption class="text-center">
-            <h2>服务列表</h2>
+            <h2>材料列表</h2>
+            <!-- <a class="btn btn-success btn-outline" href="{:U('Material/add')}">添加</a> -->
         </caption>
         <thead>
         <tr>
-            <td>序号</td>
-            <td>维修项目</td>
-            <td>工时费</td>
-            <td>工段</td>
-            <td>维修人</td>
-            <td>性质</td>
+            <th>序号</th>
+            <th>服务项目</th>
+            <th>工时费</th>
+            <th>工段</th>
+            <th>主修人</th>
+            <th>性质</th>
             <th>状态</th>
             <th>操作</th>
         </tr>
@@ -57,6 +78,8 @@
                     </if>
                 </td>
                 <td>
+                    <!-- <a class="btn btn-warning btn-outline" href="{:U('Material/modify?id='.$item['id'])}">修改</a> -->
+                    <!-- <a class="btn btn-danger btn-outline" href="{:U('Material/delete?id='.$item['id'])}" onclick="if(confirm('确定删除?')==false)return false;">删除</a> -->
                     <if condition="$item['choose'] eq '0'">
                         <button type="button" class="btn btn-primary" name="choose">选中</button>
                         <else />
