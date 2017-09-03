@@ -21,7 +21,7 @@
 <nav class="navbar navbar-default nav-justified" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">垫江县福源汽修</a>
+            <a class="navbar-brand" href="{:U('Index/index')}">垫江县福源汽修</a>
         </div>
         <div>
             <ul class="nav navbar-nav">
@@ -90,8 +90,8 @@
         </foreach>
         </tbody>
         <!--合成得到的材料id和结算单id-->
-        <input type="text" name="new_id" id="new_id">
-        <input type="text" name="settle_id" value="{$settle_id}">
+        <input type="text" name="new_id" id="new_id" hidden="true">
+        <input type="text" name="settle_id" value="{$settle_id}" hidden="true">
     </table>
 
     <div class="form-group">

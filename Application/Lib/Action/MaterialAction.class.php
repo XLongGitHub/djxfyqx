@@ -42,7 +42,7 @@ class MaterialAction extends Action {
             $id = I("get.id", "", "strval");
             if (!empty($id)) {
                 $result = $Material->where("id = $id")->select();
-                var_dump($result);
+                // var_dump($result);
             }
 //            exit();
             $this->assign("item", $result[0]);
@@ -96,7 +96,7 @@ class MaterialAction extends Action {
             for ($i = 0; $i < count($two_choose_material_ids); $i++) {
                 $choose_material_ids[] = $two_choose_material_ids[$i]['choose_material_id'];
             }
-//            var_dump($choose_material_ids);
+//            // var_dump($choose_material_ids);
             for ($i = 0; $i < count($result); $i++) {
                 if (in_array($result[$i]['id'], $choose_material_ids)) {
                     $result[$i]['choose'] = "1";
@@ -104,14 +104,14 @@ class MaterialAction extends Action {
                     $result[$i]['choose'] = "0";
                 }
             }
-//            var_dump($result);
+//            // var_dump($result);
 //            exit();
 
             $this->assign("settle_id", $settle_id);
             $this->assign("result", $result);
             $this->display();
         } else {
-            var_dump(I("post.new_id"));
+            // // var_dump(I("post.new_id"));
             exit();
         }
     }

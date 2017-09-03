@@ -26,7 +26,8 @@
 </head>
 
 <body>
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover table-condensed">
+    <!-- <table class="table table-bordered table-hover"> -->
         <caption class="text-center">
             <h1>垫江县福源汽修</h1>
         </caption>
@@ -80,7 +81,8 @@
         </tr>
         <foreach name="services" item="service">
             <tr>
-                <td>1</td>
+                <!--<td>1</td>-->
+                <td name="{$service.service_id}_service_serial">1</td>
                 <td colspan="6">{$service.project}</td>
                 <td>{$service.hourly_wage}</td>
                 <!-- <0{$service.service_id}_hourly_wage" {$service.hourly_wage}" hidden="true"> -->
@@ -109,7 +111,8 @@
         </tr>
         <foreach name="materials" item="material">
             <tr>
-                <td>1</td>
+                <!--<td>1</td>-->
+                <td name="{$material.material_id}_material_serial">1</td>
                 <td colspan="2">{$material.number}</td>
                 <td colspan="3">{$material.name}</td>
                 <td>{$material.unit}</td>
@@ -221,6 +224,20 @@
             </td>
         </tr>
     </table>
+<script>
+    window.onload = (function () {
+//        alert("1232");
+        var service_serials = document.querySelectorAll("td[name$='service_serial']");
+        var material_serials = document.querySelectorAll("td[name$='material_serial']")
+//        alert()
+        for (let s = 0; s < service_serials.length; s++) {
+            service_serials[s].innerText = s + 1;
+        }
+        for (let m = 0; m < material_serials.length; m++) {
+            material_serials[m].innerText = m + 1;
+        }
+    })();
+</script>
 </body>
 
 </html>

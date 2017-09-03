@@ -14,19 +14,19 @@ class SettlementAction extends Action {
             if (empty($settle_id)) {
 //                $id = 0;   //此处数据库无对应数据
                 $max_result_row = $Settlement->order("id desc")->limit("1")->select();
-                var_dump($max_result_row);
+                // var_dump($max_result_row);
 //                $max_id = 0;
                 if (empty($max_result_row)) {
                     $max_id = 0;
-                    var_dump($max_id);
+                    // var_dump($max_id);
                 } else {
                     $max_id = $max_result_row[0]['id'];
-                    var_dump($max_id);
+                    // var_dump($max_id);
                 }
-                var_dump($max_id);
+                // var_dump($max_id);
                 $new_id = $max_id + 1;
                 $this->assign("settle_id", $new_id);
-                var_dump($new_id);
+                // var_dump($new_id);
                 $this->display();
             } else {
                 $result = $Settlement->where("id = $settle_id")->select();
@@ -41,7 +41,7 @@ class SettlementAction extends Action {
                     ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
                     ->where("i.settle_id = $settle_id")
                     ->select();
-//                var_dump($materials);
+//                // var_dump($materials);
                 $this->assign("settle_id", $settle_id);
                 $this->assign("materials", $materials);
                 $this->assign("data", $data);
@@ -91,7 +91,7 @@ class SettlementAction extends Action {
             $data['write_time'] = $write_time;
 
             $result_id = $Settlement->data($data)->add();
-            var_dump($result_id);
+            // var_dump($result_id);
 //            exit();
 
 //            if ($result_id) {
@@ -112,11 +112,11 @@ class SettlementAction extends Action {
                 ->field('m.number, m.name, m.unit, m.unit_price, m.nature, i.*')
                 ->where("i.settle_id = $result_id")
                 ->select();
-//                var_dump($materials);
+//                // var_dump($materials);
             $this->assign("settle_id", $result_id);
             $this->assign("materials", $materials);
             $this->assign("data", $data);
-//            var_dump($data);
+//            // var_dump($data);
 //            exit();
             $this->display();
 
@@ -131,9 +131,10 @@ class SettlementAction extends Action {
             $new_material_id = trim(I("post.new_id", "", "strval"));
             $settle_id = I("post.settle_id", "", "strval");
 
-            if (!empty($new_material_id) && !empty($settle_id)) {
-    //            var_dump($new_material_id);
-    //            var_dump($settle_id);
+            // if (!empty($new_material_id) && !empty($settle_id)) {
+            if (!empty($settle_id)) {
+    //            // var_dump($new_material_id);
+    //            // var_dump($settle_id);
                 $two_old_material_ids = $Settle_material->field("material_id")->where("settle_id = $settle_id")->order("material_id")->select();
                 if ($two_old_material_ids == false) {
                     $old_material_ids = array();
@@ -142,7 +143,7 @@ class SettlementAction extends Action {
                 for ($i = 0; $i < count($two_old_material_ids); $i++) {
                     $old_material_ids[] = $two_old_material_ids[$i]['material_id'];
                 }
-    //            var_dump($two_old_material_ids);
+    //            // var_dump($two_old_material_ids);
                 $new_material_ids = explode(" ", $new_material_id);
     //            $max_length = count($old_material_ids) > count($new_material_ids) ? count($old_material_ids) : count($new_material_ids);
     //
@@ -158,15 +159,15 @@ class SettlementAction extends Action {
     //                }
     //            }
 
-    //            var_dump($new_material_ids);
-    //            var_dump($old_material_ids);
+    //            // var_dump($new_material_ids);
+    //            // var_dump($old_material_ids);
                 $same_ids = array_intersect($new_material_ids, $old_material_ids);
                 $new_diff_ids = array_diff($new_material_ids, $same_ids);
                 $old_diff_ids = array_diff($old_material_ids, $same_ids);
 
-    //            var_dump($same_ids);
-    //            var_dump($new_diff_ids);
-    //            var_dump($old_diff_ids);
+    //            // var_dump($same_ids);
+    //            // var_dump($new_diff_ids);
+    //            // var_dump($old_diff_ids);
 
                 //此处注意，返回结果数组索引的问题
                 //增加
@@ -175,11 +176,11 @@ class SettlementAction extends Action {
                     if (empty($new_diff_ids[$i])) continue;
                     $data['settle_id'] = $settle_id;
                     $data['material_id'] = $new_diff_ids[$i];
-    //                var_dump("new_id ".$new_material_ids[$i]);
+    //                // var_dump("new_id ".$new_material_ids[$i]);
                     $result_id = $Settle_material->data($data)->add();
 
-    //                var_dump($result_id);
-                    var_dump($data);
+    //                // var_dump($result_id);
+                    // var_dump($data);
                     $data = array();
                 }
                 //删除
@@ -229,7 +230,8 @@ class SettlementAction extends Action {
             $new_service_id = trim(I("post.new_id", "", "strval"));
             $settle_id = I("post.settle_id", "", "strval");
 
-            if (!empty($new_service_id) && !empty($settle_id)) {
+            // if (!empty($new_service_id) && !empty($settle_id)) {
+            if (!empty($settle_id)) {
                 $two_old_service_ids = $Settle_service->field("service_id")->where("settle_id = $settle_id")->order("service_id")->select();
                 if ($two_old_service_ids == false) {
                     $old_service_ids = array();
@@ -238,15 +240,15 @@ class SettlementAction extends Action {
                 for ($i = 0; $i < count($two_old_service_ids); $i++) {
                     $old_service_ids[] = $two_old_service_ids[$i]['service_id'];
                 }
-                //            var_dump($two_old_material_ids);
+                //            // var_dump($two_old_material_ids);
                 $new_service_ids = explode(" ", $new_service_id);
                 $same_ids = array_intersect($new_service_ids, $old_service_ids);
                 $new_diff_ids = array_diff($new_service_ids, $same_ids);
                 $old_diff_ids = array_diff($old_service_ids, $same_ids);
 
-                //            var_dump($same_ids);
-                //            var_dump($new_diff_ids);
-                //            var_dump($old_diff_ids);
+                //            // var_dump($same_ids);
+                //            // var_dump($new_diff_ids);
+                //            // var_dump($old_diff_ids);
 
                 //此处注意，返回结果数组索引的问题
                 //增加
@@ -255,11 +257,11 @@ class SettlementAction extends Action {
                     if (empty($new_diff_ids[$i])) continue;
                     $data['settle_id'] = $settle_id;
                     $data['service_id'] = $new_diff_ids[$i];
-                    //                var_dump("new_id ".$new_material_ids[$i]);
+                    //                // var_dump("new_id ".$new_material_ids[$i]);
                     $result_id = $Settle_service->data($data)->add();
 
-                    //                var_dump($result_id);
-                    var_dump($data);
+                    //                // var_dump($result_id);
+                    // var_dump($data);
                     $data = array();
                 }
                 //删除
@@ -410,38 +412,38 @@ class SettlementAction extends Action {
                     $materials_ids[] = $two_material_ids[$i]['material_id'];
                 }
             }
-            var_dump($materials_ids);
+            // var_dump($materials_ids);
             for ($i = 0; $i < count($materials_ids); $i++) {
                 $quantity = I("post.".$materials_ids[$i]."_quantity", "", "strval");
-                var_dump("post.".$i."_quantity");
-                var_dump($quantity);
+                // var_dump("post.".$i."_quantity");
+                // var_dump($quantity);
                 $money = I("post.".$materials_ids[$i]."_money", "", "strval");
                 $settle_material_data = array();
                 $settle_material_data['quantity'] = $quantity;
                 $settle_material_data['money'] = $money;
                 $Settle_material->where("settle_id = $settle_id and material_id = $materials_ids[$i]")
                     ->save($settle_material_data);
-                var_dump($settle_material_data);
+                // var_dump($settle_material_data);
             }
 //            exit();
 
 //            判断添加还是修改记录
-            var_dump($settle_id);
+            // var_dump($settle_id);
             $is_exists = null;
             if (!empty($settle_id)) {
                 $is_exists = $Settlement->where("id = $settle_id")->select();
-                var_dump($is_exists);
+                // var_dump($is_exists);
             }
             if (empty($settle_id) || empty($is_exists)) {
                 $result_id = $Settlement->data($data)->add();
 
-                var_dump("add");
+                // var_dump("add");
             } else {
                 $result_id = $Settlement->where("id = $settle_id")->save($data);
-                var_dump($data);
-                var_dump("save");
+                // var_dump($data);
+                // var_dump("save");
             }
-//            var_dump($result_id);
+//            // var_dump($result_id);
 //            exit();
 //            if ($result_id) {
 //                $this->success("结算单保存成功");
@@ -466,12 +468,12 @@ class SettlementAction extends Action {
                 ->field('s.project, s.hourly_wage, s.section, s.repair_man, s.nature, i.*')
                 ->where("i.settle_id = $settle_id")
                 ->select();
-//                var_dump($materials);
+//                // var_dump($materials);
             $this->assign("settle_id", $settle_id);
             $this->assign("materials", $materials);
             $this->assign("services", $services);
             $this->assign("data", $data);
-//            var_dump($data);
+//            // var_dump($data);
 //            exit();
             $this->display("add");
         } else if (IS_GET) {

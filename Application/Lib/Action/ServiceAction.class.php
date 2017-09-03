@@ -99,7 +99,7 @@ class ServiceAction extends Action {
                     $result[$i]['choose'] = "0";
                 }
             }
-            var_dump($result);
+//            var_dump($result);
 //            exit();
 
             $this->assign("settle_id", $settle_id);
